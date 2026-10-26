@@ -139,35 +139,48 @@ Because the dataset is highly imbalanced, model evaluation should consider:
 
 Accuracy will also be reported where appropriate, but it will not be used as the sole measure of model performance.
 
-## Current Status
+## Current Progress
 
-- [x] Dataset inspection
+### Completed
+- [x] Dataset inspection and data quality checks
 - [x] Missing-value analysis
 - [x] Duplicate detection and removal
 - [x] Numerical feature distribution analysis
+- [x] Transaction amount analysis by class
 - [x] Class imbalance analysis
 - [x] Correlation analysis
-- [x] Selected feature comparisons by class
-- [ ] Data preprocessing and feature transformation
-- [ ] Baseline model development
-- [ ] Model comparison and evaluation
-- [ ] Final model selection
+- [x] Feature distribution comparison by class
+- [x] Train-test split using stratification
+- [x] StandardScaler preprocessing experiment
+- [x] Log transformation of `Amount` followed by StandardScaler
+- [x] Initial Logistic Regression baseline
 
-## Future Improvements
+### In Progress
+- [ ] Evaluate class weighting for imbalanced classification
+- [ ] Compare classification thresholds
+- [ ] Experiment with additional classification models
+- [ ] Compare models using precision, recall, F1-score, and PR-AUC
+- [ ] Final model selection and evaluation
 
-- Establish baseline classification models.
-- Compare Logistic Regression, Random Forest, and other suitable classifiers.
-- Evaluate class-weighting and training-only resampling techniques.
-- Tune classification thresholds based on precision-recall trade-offs.
-- Compare models using appropriate metrics for imbalanced classification.
-- Develop a reusable prediction pipeline.
+## Initial Modeling Results
 
-## Disclaimer
+Logistic Regression was evaluated using two preprocessing approaches:
 
-This project is intended for educational and portfolio purposes. Its models and results should not be considered a production-ready financial fraud detection system without further validation, testing, and monitoring.
+1. StandardScaler applied to `Time` and `Amount`.
+2. Log transformation of `Amount`, followed by StandardScaler applied to `Time` and the transformed `Amount`.
 
-## Author
+| Metric (Fraud Class) | StandardScaler | Log + StandardScaler |
+|---|---:|---:|
+| Precision | 0.85 | 0.86 |
+| Recall | 0.59 | 0.60 |
+| F1-score | 0.70 | 0.71 |
+| Fraud cases detected | 56 / 95 | 57 / 95 |
+| Fraud cases missed | 39 | 38 |
 
-**Anwesh A Salian**
+The log-transformed experiment showed a small improvement in fraud-class precision, recall, and F1-score on the evaluated test split. Further validation is needed to determine whether this improvement is consistent.
 
-B.E. — Artificial Intelligence and Machine Learning
+Because the dataset is highly imbalanced, accuracy alone is insufficient for evaluating fraud detection performance.
+
+Detailed observations and experiment results are documented in:
+- [EDA Insights](eda_insights.md)
+- [Preprocessing Experiments](reports/preprocessing_experiments.md)
